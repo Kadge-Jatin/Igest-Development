@@ -1,0 +1,10 @@
+modelv2: Deployment code on Arduino RP2040 - v1
+
+Tensorflow version: 2.13.0
+TFLite version: 2.4.0-ALPHA
+
+Error Faced:
+
+●Error 1: I was unable to push 2D array as the input to model
+● Error 2: Didn't find op for builtincode 'EXPAND_DIMS' version'1', Failed to get
+registration from op code EXPAND_DIMS, Failed started model allocation
