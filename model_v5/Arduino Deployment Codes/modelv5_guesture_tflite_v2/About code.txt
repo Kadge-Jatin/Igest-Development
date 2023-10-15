@@ -1,0 +1,14 @@
+modelv5: Deployment code on Arduino RP2040 - v2
+
+Tensorflow version: 2.13.0
+TFLite version: 1.15.0-ALPHA
+
+Proposed Solution:
+From the Architecture, it is been clearly seen that, the Architecture depends upon the Fully Connected Node completely. The Fully Connected Node is properly defined in the TFlite version 1.15.0-ALPHA. Hence, downgrading the TFlite version from 2.4.0 to 1.15.0 can solve the issue.
+
+Error resolved:
+●Didn't find op for builtincode 'EXPAND_DIMS' version'1', Failed to get registration from op code EXPAND_DIMS, Failed started model
+●tensorflow\lite\micro\kernels\cmsis-nn\fully_connected.cpp Hybrid models are not supported on TFLite Micro. Node FULLY_CONNECTED (number 4f) failed to prepare with status
+
+Error faced:
+●Firmware on Microcontroller crahes. It is inidicated by the 4 long beeps (beeps per seconds) followed by 4 short beeps (beeps per half a second approximately)  
