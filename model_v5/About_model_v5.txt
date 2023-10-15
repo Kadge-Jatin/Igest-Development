@@ -1,0 +1,27 @@
+Tensorflow version: 2.13.0
+
+Aim: To solve the error facced in model_v2 Deployment code
+Error:
+●Didn't find op for builtincode 'EXPAND_DIMS' version'1', Failed to get registration from op code EXPAND_DIMS, Failed started model 
+
+Proposed Solution:
+The error can be solved by eliminating the ML model ‘model_v2’ dependency on EXPAND_DIMS. The EXPAND_DIMS comes into the picture while converting the Tensorflow model into the TF Lite model. 
+The Tensorflow 1D operations, e.g., Conv1D, are specialized versions of their higher-order counterparts, e.g., Conv2D. Therefore, upgrading 1D operations without sacrificing accuracy is possible.
+The Tensorflow Lite Converter does the same thing but replaces the Conv1D with Conv2D AND an additional ExpandDims layer before that - hence the problem. 
+This can be avoided by Retraining the ML model with Tensorflow 2D operations itself as mentioned in the link above so that the TFlite converter doesn’t require to use of the EXPAND_DIMS operation.
+Reference: https://stackoverflow.com/questions/66664484/tensorflow-lite-on-arduino-nano-33-ble-didnt-find-op-for-builtin-opcode-expa/66971484#66971484
+
+Model Architecture:
+
+The model is built on a Sequential Convolution Neural Network. The model will be a sequential model with the following layers:
+1. Conv2D layer with 64 filters, kernel size of (3,1), and ReLU activation, with input shape of(n_timesteps, n_features,1).
+2. Another Conv2D layer with 64 filters, kernel size of (3,1) and ReLU activation.
+3. A dropout layer with 0.5 dropout rate.
+4. A MaxPooling2D layer with pool size of (2,1).
+5. A flatten layer.
+6. A dense layer with 100 neurons and ReLU activation.
+7. Another dense layer with n_outputs neurons and softmax activation.
+The model is compiled with categorical cross-entropy loss, adam optimizer and accuracy metric.
+The ML model has the input shape (1,10,6,1) which means 1 batch of 2d array of shape [10][6][1]. The model has the output shape (1,5) which means 1 batch of 5 elements.
+
+Accuracy: 96.830%
