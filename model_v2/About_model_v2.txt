@@ -1,0 +1,20 @@
+Tensorflow version: 2.13.0
+
+This folder contains the codes for Training and Testing of model_v2
+
+Model Architecture:
+
+The model is built on a Sequential Convolution Neural Network. The model will be a sequential model with the following layers:
+1. Conv1D layer with 64 filters, kernel size of 3, and ReLU activation, with input shape of(n_timesteps, n_features).
+2. Another Conv1D layer with 64 filters, kernel size of 3 and ReLU activation.
+3. A dropout layer with 0.5 dropout rate.
+4. A MaxPooling1D layer with pool size of 2.
+5. A flatten layer.
+6. A dense layer with 100 neurons and ReLU activation.
+7. Another dense layer with n_outputs neurons and softmax activation.
+The model is compiled with categorical cross-entropy loss, adam optimizer and accuracy metric.
+The ML model has the input shape (1,10,6) which means 1 batch of 2d array of shape [10][6]. The model has the output shape (1,5) which means 1 batch of 5 elements.
+
+Accuracy: 96.250%
+
+
