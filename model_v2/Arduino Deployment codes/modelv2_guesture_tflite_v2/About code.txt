@@ -3,7 +3,7 @@ modelv2: Deployment code on Arduino RP2040 - v2
 Tensorflow version: 2.13.0
 TFLite version: 2.4.0-ALPHA
 
-Error resolved from v1:
+Error resolved:
 ●Unable to push 2D array as the input to model
 
 Error faced:
