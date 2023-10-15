@@ -1,6 +1,6 @@
 Tensorflow version: 2.13.0
 
-This folder contains the codes for Training and Testing of model_v2
+Aim: To make a Deployment code for Arduino RP2040 to deploy ML model
 
 Model Architecture:
 
