@@ -1,0 +1,12 @@
+modelv8: Deployment code on Arduino RP2040 - v1
+This is model with 16 filters
+
+Tensorflow version: 2.13.0
+TFLite version: 1.15.0-ALPHA
+
+Error resolved:
+●Firmware on Microcontroller crahes as the code is executed. It is inidicated by the 4 long blinks (blinks per seconds) followed by 4 short blinks (blinks per half a second approximately)  
+
+Error faced:
+●The Firmware on RP2040 crashed due to the following error: “Didn't find op for builtin opcode 'CONV_2D' version '1'” 
+ 

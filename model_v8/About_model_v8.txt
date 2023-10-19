@@ -1,0 +1,32 @@
+Tensorflow version: 2.13.0
+
+Aim: To resolve the following error.
+Error:
+● Crashing of Firmware deployed on Arduino Nano RP2040 once the code is executed
+
+Cause and Proposed Solution:
+
+The memory consumption details of the Deployment code 'modelv5_guesture_tflite_v2' are as follows-
+Sketch uses 247527 bytes (1%) of program storage space. Maximum is 16777216 bytes.
+Global variables use 204540 bytes (75%) of dynamic memory, leaving 65796 bytes for local variables. Maximum is 270336 bytes.
+Warning: Low Memory Available. Might Cause Stability Issues.
+
+Out of the 75%, the c_model_v5.h consumes large memory. Hence, there was a need to reduce the size of the model. The size of model c_model_v5.h file is around 820 KB.  Size of the file needs to be reduced. It is achieved by Retraing the Model with the following Architecture.
+
+Model Architecture:
+
+The model is built on a Sequential Convolution Neural Network. The model will be a sequential model with the following layers:
+1. Conv2D layer with 16 filters, kernel size of (3,1) and ReLU activation, with input shape of (n_timesteps, n_features,1).
+2. Another Conv2D layer with 16 filters, kernel size of (3,1) and ReLU activation.
+3. A dropout layer with 0.5 dropout rate.
+4. A MaxPooling2D layer with pool size of 2.
+5. A flatten layer.
+6. A dense layer with 100 neurons and ReLU activation.
+7. Another dense layer with n_outputs neurons and softmax activation.
+The model is compiled with categorical cross-entropy loss, adam optimizer and accuracy metric.
+The main difference in this new Architecture is that this Model is trained on ‘Conv 2D layer’ with 16 layers instead of 64 layers. The accuracy of the model was not affected by this major change. 
+
+Accuracy= 97%
+Size= 230 KB
+
+
