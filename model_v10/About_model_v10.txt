@@ -1,0 +1,55 @@
+Tensorflow version: 2.13.0
+
+=>Aim: To resolve the following error.
+Error:
+● Crashing of Firmware deployed with the error: Didn't find op for builtin opcode 'CONV_2D' version '1'. Invoke failed!
+
+=>Cause and Proposed Solution:
+
+1. The one of the reason for the above Op error is that the Builtin Op for that error is not added and registered in the Deployed code as follows. 
+tflite::MicroMutableOpResolver micro_mutable_op_resolver;
+micro_mutable_op_resolver.AddBuiltin(tflite::BuiltinOperator_CONV_2D, tflite::ops::micro::Register_CONV_2D());
+
+
+2. If the issue persists, the root of the error is that the developed Ml model has been converted and optimized by the latest version of CONV2D and the current intepretor at the Deployed side does not support it. The solution for this issue is to drop the optimization step of model while converting it into Tflite model. In addition, the conversion should be limited to Default Ops available. The conversion should be done as follows.
+
+import tensorflow as tf
+converter = tf.lite.TFLiteConverter.from_keras_model("model.h5")
+converter.optimizations = []
+converter.post_training_quantize=True
+converter.allow_custom_ops=False
+tflite_model = converter.convert()
+
+
+3. In addition, firmware on RP2040 is crashing on execution. This again points to the issue regarding memory. Hence, the size of the model 'model_v8' needs to be reduced. The size of model 'model_v8' is 230 KB with 97% accuracy
+
+
+=>Activities carried out in model 'model_v10'
+
+1. The proposed solution 1 is implimented in Deployment code "modelv10_guesture_tflite_debug_v1"
+2. The proposed solution 2 is implimented in Conversion into tflite code "Conversion into TFLite 'model_v10' w/o quantization v10_3.ipynb"
+3. The proposed slution 3 is implimented by using following Model Architecture in "Testing_'model_v10'.ipynb"
+
+Model Architecture:
+
+The model is built on a Sequential Convolution Neural Network. The model will be a sequential model with the following layers:
+1. Conv2D layer with 8 filters, kernel size of (3,1) and ReLU activation, with input shape of (n_timesteps, n_features).
+2. Another Conv2D layer with 8 filters, kernel size of (3,1) and ReLU activation.
+3. A dropout layer with 0.5 dropout rate.
+4. A MaxPooling2D layer with pool size of 2.
+5. A flatten layer.
+6. A dense layer with 20 neurons and ReLU activation.
+7. Another dense layer with n_outputs neurons and softmax activation.
+The model is compiled with categorical cross-entropy loss, adam optimizer and accuracy metric.
+The main difference in this new Architecture is that this Model is trained on ‘Conv 2D layer’ with 8 layers instead of 64 layers. In addition, only 20 neurons are used in dense layer instead of 100 neurons. The accuracy of the model was not affected by this major change. 
+
+Accuracy= 97.083%
+
+3. The proposed solution 2 is implimented in "Conversion into TFLite 'model_v10' w/o quantization v10_3.ipynb"
+
+Size of the model 'model__v10_3' that is going to be deployed = 99 KB
+
+=>Result:
+
+1. Able to get proper inference.
+2. However, the Firmware crashes after few minutes of execution. The error is related to memory consumption by the code.
