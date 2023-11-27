@@ -1,0 +1,34 @@
+Tensorflow version: 2.13.0
+
+=>Aim: To resolve the following error.
+Error:
+● Didn't find op for builtin opcode 'CONV_2D' version '1'. Invoke failed!
+
+=>Cause and Proposed Solution:
+
+1. The one of the reason for the above Op error is that the Builtin Op for that error is not added and registered in the Deployed code as follows. 
+tflite::MicroMutableOpResolver micro_mutable_op_resolver;
+micro_mutable_op_resolver.AddBuiltin(tflite::BuiltinOperator_CONV_2D, tflite::ops::micro::Register_CONV_2D());
+
+2. One of the reasons for such error is Higher memory consumption. To verify this, I reduced the size of the model to 41 KB. Model name: 'model_v12'. The model 'model_v12' has approximately 96% accuracy
+
+Model Architecture:
+
+The model is built on a Sequential Convolution Neural Network. The model will be a sequential model with the following layers:
+1. Conv2D layer with 4 filters, kernel size of (3,1) and ReLU activation, with input shape of (n_timesteps, n_features,1).
+2. Another Conv2D layer with 4 filters, kernel size of (3,1) and ReLU activation.
+3. A dropout layer with 0.5 dropout rate.
+4. A MaxPooling2D layer with pool size of 2.
+5. A flatten layer.
+6. A dense layer with 10 neurons and ReLU activation.
+7. Another dense layer with n_outputs neurons and softmax activation.
+The model is compiled with categorical cross-entropy loss, adam optimizer and accuracy metric.
+The main difference in this new Architecture is that this Model is trained on ‘Conv 2D layer’ with 4 layers instead of 64 layers. In addition, only 10 neurons are used in dense layer instead of 100 neurons. The accuracy of the model was not affected by this major change. 
+
+Accuracy= 95.667%
+
+
+=>Result:
+
+1. The following error persists
+Error: Didn't find op for builtin opcode 'CONV_2D' version '1'. Invoke failed!
