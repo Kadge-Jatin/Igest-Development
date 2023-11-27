@@ -1,0 +1,10 @@
+modelv10: Deployment code on nRF 52840 Board - v1
+This Model is trained on ‘Conv 2D layer’ with 8 layers instead of 64 layers. In addition, only 20 neurons are used in dense layer instead of 100 neurons.
+
+Tensorflow version: 2.13.0
+TFLite version: 1.15.0-ALPHA
+
+Error found:
+● “Didn't find op for builtin opcode 'CONV_2D' version '1'” 
+
+
