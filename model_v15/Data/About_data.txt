@@ -1,0 +1,11 @@
+Each folder contains instance with respect to the name of the folder.
+
+Before proceeding with building model. Perform following steps.
+1. Rename the file into 'Gesture.csv' file. Replace the 'Gesture' in the folder name with the correspoing gesture name
+2. Create a seperate folde names as 'Train_Test' in the home folder, not in Data folder that contains the 5 sample/instace folders
+3. Open the folder 'Train_Test'
+4. Create folder with the name of 'Train'
+5. Create folder with the name of 'Test'
+6. Execute Rp2040_Managing_Data_D4_DM2.ipynb
+7. Execute Training_'model_v15'_D4_DM2_D3_3secs.ipynb
+

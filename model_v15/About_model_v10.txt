@@ -1,0 +1,31 @@
+Tensorflow version: 2.13.0
+
+=>Aim: To train a model on the new dataset where we have a total of 250 instances for 5 gestures, and each instance contains 50 samples.
+
+
+Model Architecture:
+
+This is a sequential model with the following layers
+
+1. Conv2D layer with 4 filters, kernel size of (3,1) and ReLU activation, with input shape of (n_timesteps, n_features).
+2. Another Conv2D layer with 4 filters, kernel size of (3,1) and ReLU activation.
+3. A dropout layer with 0.5 dropout rate.
+4. A MaxPooling2D layer with pool size of (2,1).
+5. A flatten layer.
+6. A dense layer with 10 neurons and ReLU activation.
+7. Another dense layer with n_outputs neurons and softmax activation.
+
+The model is compiled with categorical cross-entropy loss, adam optimizer and accuracy metric. It is trained with the given trainX and trainy data for a specified number of epochs and batch size. Finally, the accuracy of the model is evaluated on the testX and testy data.
+
+Accuracy= 94.000%
+model .c file size = 157 KB
+
+Instructions:
+
+1. Execute Rp2040_Managing_Data_D4_DM2.ipynb
+2. Execute Training_'model_v15'_D4_DM2_D3_3secs.ipynb
+3. Execute Conversion_into_TFLite_'model_v15'_w_o_quantization_D4_DM2_3_3secs.ipynb
+
+=>Result:
+
+1. Able to get proper on-board inference 

@@ -1,0 +1,11 @@
+modelv10: Deployment code on Arduino RP2040 - v2
+This Model is trained on ‘Conv 2D layer’ with 8 layers instead of 64 layers. In addition, only 20 neurons are used in dense layer instead of 100 neurons.
+
+Tensorflow version: 2.13.0
+TFLite version: 1.15.0-ALPHA
+
+Error resolved:
+●The Firmware on RP2040 crashed due to the following error: “Didn't find op for builtin opcode 'CONV_2D' version '1'” 
+●Firmware crashes after few minutes of code execution. The error is related to memory consumption by the code.
+
+
