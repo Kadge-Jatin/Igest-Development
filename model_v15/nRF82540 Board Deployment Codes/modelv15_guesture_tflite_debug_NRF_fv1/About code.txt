@@ -1,0 +1,11 @@
+modelv15: Deployment code on nRF52840 - v1
+This Model is trained on ‘Conv 2D layer’ with 4 layers instead of 64 layers. In addition, only 10 neurons are used in dense layer instead of 100 neurons.
+
+Tensorflow version: 2.13.0
+TFLite version: 2.4.0-ALPHA
+
+Error resolved:
+●Error: “Didn't find op for builtin opcode 'CONV_2D' version '1'” 
+●Firmware crashes after few minutes of code execution. The error is related to memory consumption by the code.
+
+
